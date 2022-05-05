@@ -1,3 +1,45 @@
 .mctooltip {
-    color: red;
+    text-decoration: underline;
+    position: relative;
+    cursor: help;
+
+    &:after {
+        content: attr(title);
+        background: black;
+        color: white;
+        font-weight: 500;
+        display: block;
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        bottom: 12px;
+        text-align: center;
+        padding: 9px 22px 29px;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s 0.2s, 
+                    opacity 0.2s linear, 
+                    bottom 0.2s linear;
+
+        //Thanks https://css-tricks.com/perfect-tooltips-with-css-clipping-and-masking/ !
+        mask-image: 
+            // Rectangle
+            url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" rx="20%"></rect></svg>'),
+            //Bottom Arrow
+            url('data:image/svg+xml;utf8,<svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><polygon points="44 0 22 22 0 0"/></svg>');
+        mask-position: 
+            0 0, // Rectangle
+            50% 100%; // Bottom arrow
+        mask-size:
+            100% calc(100% - 18px), // Rectangle
+            18px 18px; // Bottom arrow
+        mask-repeat: no-repeat;
+    }
+    
+    &:hover:after {
+        visibility: visible;
+        opacity: 1;
+        bottom: 15px;
+        transition: opacity 0.2s linear, bottom 0.2s linear;
+    }
 }
